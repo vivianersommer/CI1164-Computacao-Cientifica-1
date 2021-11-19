@@ -261,7 +261,6 @@ double* newton (bag *b, FILE* arq2, int cont_bag){
     cria_jacobiana(b, jacobiana); //crio matriz jacobiana e calculo o tempo
     b->tderivadas = timestamp() - b->tderivadas;
 
-
   //LOOP DE ITERACOES --------------------------------------------------------------------------------------------------------
 
     for(int i=0; i<b->max_iter; i++){
@@ -273,7 +272,6 @@ double* newton (bag *b, FILE* arq2, int cont_bag){
         fprintf(arq2, "x%d = %f\n", inter , x[s]);
         inter++;
       }
-      fprintf(arq2, "#\n");
     
       //utiliza valores de x nas funcoes para calcular os resultados
       anali_function(b, x, values, incognitas, cont_bag);
@@ -319,13 +317,12 @@ double* newton (bag *b, FILE* arq2, int cont_bag){
 
 
     //impressao das iteracoes x finais
-    fprintf(arq2,"#\n");
     int inter=1;
+    fprintf(arq2,"#\n");
     for(int s=0; s< b->max_eq; s++){
       fprintf(arq2,"x%d = %f\n", inter , x[s]);
       inter++;
     }
-    fprintf(arq2,"#\n");
 
 
     //free em todo mundo

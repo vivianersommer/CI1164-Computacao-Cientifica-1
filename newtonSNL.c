@@ -8,6 +8,7 @@
 #include "utils.h"
 #include <inttypes.h>
 #include <assert.h>
+#include <matheval.h>
 
 #define MAX_NOME 100 //maximo de caracteres para um nome de arquivo de saida
 
@@ -16,7 +17,7 @@ int main (int argc, char **argv){
     //ler dados de sistemas.dat -------------------------------------------------------------------------------------------------------------
     FILE *arq, *arq2;
     
-    arq = fopen("sistemas.dat","r");
+    arq = stdin;
 
     char* output = malloc(MAX_NOME * sizeof(char));
     output=malloc(MAX_NOME * sizeof(char)); // reservo espaço para um nome de ate 100 letras
@@ -115,11 +116,15 @@ int main (int argc, char **argv){
         }
 
         // Prints ------------------------------------------------------------------------------------------------------------------------------
-        fprintf(arq2,"\n---------Início do bloco ------------------------------------\n");
-        fprintf(arq2,"Dimensao:  %d\n", b->max_eq);
-        for(int h = 0; h < b->max_eq; h++){
-            fprintf(arq2,"Equacao %i : %s\n", h + 1, b->eq[h]);
+        fprintf(arq2,"%d\n", b->max_eq);
+        void *f;
+        for(int i = 0; i < b->max_eq; i++){
+            clean_fgets(b->eq[i]);
+            f = evaluator_create(b->eq[i]);
+            assert(f);
+            fprintf(arq2,"%s = 0\n", evaluator_get_string(f));
         }
+        evaluator_destroy(f);
         // -------------------------------------------------------------------------------------------------------------------------------------
 
         // Método de Newton. -------------------------------------------------------------------------------------------------------------------
@@ -135,8 +140,8 @@ int main (int argc, char **argv){
         fprintf(arq2, "# Tempo Derivadas: %f\n", b->tderivadas);
         fprintf(arq2, "# Tempo Jacobiana: %f\n", b->tjacobiana);
         fprintf(arq2, "# Tempo SL: %f\n", b->tsl);   
-        fprintf(arq2, "###########\n");     
-        fprintf(arq2, "-------------------------------------------------------------\n");
+        fprintf(arq2, "###########\n");   
+        fprintf(arq2, "\n");     
         // -------------------------------------------------------------------------------------------------------------------------------------
 
         fgetc(arq); // ler \n que sobrou
