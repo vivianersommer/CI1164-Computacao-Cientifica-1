@@ -10,7 +10,7 @@
 #include <assert.h>
 #include <matheval.h>
 
-#define MAX_NOME 100 //maximo de caracteres para um nome de arquivo de saida
+#define MAX 100 //maximo de caracteres para um nome de arquivo de saida
 
 int main (int argc, char **argv){
 
@@ -19,8 +19,8 @@ int main (int argc, char **argv){
     
     arq = stdin;
 
-    char* output = malloc(MAX_NOME * sizeof(char));
-    output=malloc(MAX_NOME * sizeof(char)); // reservo espaço para um nome de ate 100 letras
+    char* output = malloc(MAX * sizeof(char));
+    output=malloc(MAX * sizeof(char)); // reservo espaço para um nome de ate 100 letras
     output = le_nome(argc, argv);
 
     if (output == NULL){
@@ -44,8 +44,8 @@ int main (int argc, char **argv){
 
 
         // b->max_eq ------------------------------------------------------------------------------------------------------------------------
-        char max_eq[24];
-        fgets(max_eq, 24, arq); 
+        char max_eq[MAX];
+        fgets(max_eq, MAX, arq); 
         clean_fgets(max_eq);
         b->max_eq = atoi(max_eq);
         // ----------------------------------------------------------------------------------------------------------------------------------
@@ -53,12 +53,12 @@ int main (int argc, char **argv){
         // b->eq ----------------------------------------------------------------------------------------------------------------------------
         b->eq = malloc (b->max_eq * sizeof(char*)); 
         for (int i=0; i<b->max_eq; i++){
-            b->eq[i] = malloc(24 * sizeof(char));
+            b->eq[i] = malloc(MAX * sizeof(char));
         }
 
         for(int i=0; i<=b->max_eq -1; i++){
-            b->eq[i] = malloc(sizeof(500)); //crio vetor auxiliar para ir recebendo por linha as funcoes dadas no dat
-            fgets(b->eq[i], 24, arq);
+            // b->eq[i] = malloc(sizeof(500)); //crio vetor auxiliar para ir recebendo por linha as funcoes dadas no dat
+            fgets(b->eq[i], MAX, arq);
             char ch;
 
             //para garantir que vai ser puxada uma linha nao vazia garantindo q nao venha lixo
@@ -69,7 +69,7 @@ int main (int argc, char **argv){
 
             // analiza se foi feita a leitura de string inválida, confere se nao eh "\r" ou "\n"
             if(b->eq[i] == NULL || ch == 13 || ch==10){ 
-                fgets(b->eq[i], 24, arq);
+                fgets(b->eq[i], MAX, arq);
             }
 
         }
@@ -77,13 +77,13 @@ int main (int argc, char **argv){
 
 
         // b->x0 -------------------------------------------------------------------------------------------------------------------------------
-        b->x0 = malloc((b->max_eq -1) * sizeof(double)); 
-        char* x0 = malloc(100 * sizeof(char));
+        b->x0 = malloc((b->max_eq) * sizeof(double)); 
+        char* x0 = malloc(MAX * sizeof(char));
 
-        fgets(x0, 100, arq);
+        fgets(x0, MAX, arq);
 
         if(x0 == NULL){
-            fgets(x0, 100, arq);
+            fgets(x0, MAX, arq);
         }
 
         char **tokens;
@@ -98,14 +98,14 @@ int main (int argc, char **argv){
         // -------------------------------------------------------------------------------------------------------------------------------------
 
         // b->epsilon --------------------------------------------------------------------------------------------------------------------------
-        char ep[10];
-        fgets(ep, 10, arq);
+        char ep[30];
+        fgets(ep, 30, arq);
         b->epsilon = atof(ep);
         // -------------------------------------------------------------------------------------------------------------------------------------
 
         // b->max_iter -------------------------------------------------------------------------------------------------------------------------
-        char max_iter[24];
-        fgets(max_iter, 24, arq); //ler do arquivo dat maximo de equacoes possiveis
+        char max_iter[MAX];
+        fgets(max_iter, MAX, arq); //ler do arquivo dat maximo de equacoes possiveis
         clean_fgets(max_iter);
         b->max_iter = atoi(max_iter);
         // -------------------------------------------------------------------------------------------------------------------------------------

@@ -14,7 +14,7 @@
 #include <unistd.h>
 
 #define MAX_NOME 50 //maximo de caracteres para um nome de arquivo de saida
-#define MAX_LIN 100 //maximo de caracteres permitidas na linha de uma funcao passada no .dat
+#define MAX 300 //maximo de caracteres permitidas na linha de uma funcao passada no .dat
 
 //algoritmo para tratamento da linha de comando, daqui abdusimos o nome do arquivo de saida passado
 char *le_nome(int argc, char **argv){ 
@@ -83,7 +83,7 @@ int split (const char *txt, char delim, char ***tokens)
 //criacao da jacobiana utilizando as derivadas
 void cria_jacobiana(bag *b, char***jacobiana){ 
   void *f, *f_dv;
-  char *valor_x = malloc(MAX_LIN * sizeof(char));
+  char *valor_x = malloc(MAX * sizeof(char));
    
   for(int i=0; i<b->max_eq; i++){
 
@@ -232,9 +232,9 @@ double* newton (bag *b, FILE* arq2, int cont_bag){
     for(int s=0; s< b->max_eq; s++){
       jacobiana_x[s] = malloc((b->max_eq -1) * sizeof(double));
     }
-    char **incognitas = malloc(MAX_LIN * sizeof(char*));  // incognitas = [x1, x2, x3, ..]
+    char **incognitas = malloc(MAX * sizeof(char*));  // incognitas = [x1, x2, x3, ..]
     for(int j=0; j< b->max_eq; j++){
-      incognitas[j] = malloc(MAX_LIN * sizeof(char));
+      incognitas[j] = malloc(MAX * sizeof(char));
     }
 
     int coef=0;
@@ -247,7 +247,7 @@ double* newton (bag *b, FILE* arq2, int cont_bag){
     for(int i = 0; i < b->max_eq; i++){
       jacobiana[i] = (char **) malloc(sizeof(char*) * b->max_eq);  
       for(int j = 0; j < b->max_eq; j++){
-        jacobiana[i][j] = (char *) malloc(sizeof(char) * 100);
+        jacobiana[i][j] = (char *) malloc(sizeof(char) * MAX);
       }
     }
 
